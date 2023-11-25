@@ -23,7 +23,7 @@ class PokeAPIClient {
                     group.enter()
                     self.fetchPokemonDetail(url: entry.url) { detail in
                         if let detail = detail {
-                            var pokemon = Pokemon(name: entry.name, url: entry.url, id: detail.id)
+                            var pokemon = Pokemon(name: entry.name, url: entry.url, id: detail.id, height: detail.height, weight: detail.weight, types: detail.types.map { $0.type.name })
                             pokemon.imageUrl = detail.sprites.front_default
                             pokemons.append(pokemon)
                         }
@@ -70,10 +70,23 @@ struct PokemonEntry: Codable {
 struct PokemonDetail: Codable {
     let sprites: Sprites
     let id: Int
+    let height: Int
+    let weight: Int
+    let types: [PokemonTypeEntry]
 }
 
 struct Sprites: Codable {
     let front_default: String?
+}
+
+struct PokemonTypeEntry: Codable {
+    let slot: Int
+    let type: NamedAPIResource
+}
+
+struct NamedAPIResource: Codable {
+    let name: String
+    let url: String
 }
 
 // ポケモンを表す構造体
@@ -82,5 +95,7 @@ struct Pokemon: Codable {
     let url: String
     var imageUrl: String?
     let id: Int
+    let height: Int
+    let weight: Int
+    let types: [String] // タイプの名前のみを格納する配列
 }
-

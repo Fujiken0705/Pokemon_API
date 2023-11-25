@@ -84,10 +84,11 @@ extension ListViewController: UICollectionViewDataSource {
     }
 }
 
-// デリゲートメソッドも拡張に追加します
 extension ListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // セルが選択された時の処理をここに実装
+        let pokemon = pokemons[indexPath.row]
+        let detailVC = PokemonDetailViewController(nibName: "PokemonDetailViewController", bundle: nil)
+        detailVC.pokemon = pokemon
+        self.present(detailVC, animated: true, completion: nil)
     }
 }
-
