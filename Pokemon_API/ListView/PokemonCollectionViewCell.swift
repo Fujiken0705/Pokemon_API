@@ -34,7 +34,6 @@ class PokemonCollectionViewCell: UICollectionViewCell {
             return
         }
 
-        // AlamofireImageを使用して画像をダウンロードし、UIImageViewにセットする
         pokemonImageView.af.setImage(withURL: imageUrl)
     }
 }

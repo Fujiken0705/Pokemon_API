@@ -97,5 +97,5 @@ struct Pokemon: Codable {
     let id: Int
     let height: Int
     let weight: Int
-    let types: [String] // タイプの名前のみを格納する配列
+    let types: [String]
 }
