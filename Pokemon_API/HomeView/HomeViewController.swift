@@ -18,9 +18,9 @@ final class HomeViewController : UIViewController {
 
 
     @IBAction func showListViewController(_ sender: Any) {
-        //ListViewControllerのインスタンスを作成
-        let listViewController = ListViewController(nibName: "ListViewController", bundle: nil)
-        navigationController?.pushViewController(listViewController, animated: true)
+        //SearchViewControllerのインスタンスを作成
+        let searchViewController = SearchViewController(nibName: "SearchViewController", bundle: nil)
+        navigationController?.pushViewController(searchViewController, animated: true)
     }
 
     
