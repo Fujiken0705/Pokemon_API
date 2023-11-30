@@ -33,7 +33,7 @@
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" title="スタート"/>
                     <connections>
-                        <action selector="showListViewController:" destination="-1" eventType="touchUpInside" id="Fvd-rb-Zro"/>
+                        <action selector="showTabBar:" destination="-1" eventType="touchUpInside" id="Fvd-rb-Zro"/>
                     </connections>
                 </button>
             </subviews>

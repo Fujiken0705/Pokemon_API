@@ -6,27 +6,28 @@
 //
 
 import UIKit
-import Dispatch
 import AlamofireImage
 
 final class ListViewController: UIViewController {
 
-    @IBOutlet weak var pokemonCollectionView: UICollectionView!
+    @IBOutlet private weak var pokemonCollectionView: UICollectionView!
 
-    var pokemons: [Pokemon] = [] // ポケモンデータの配列
+    var pokemons: [GeneralPokemonInfo] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        fetchPokemons()
+        Task {
+            await fetchPokemons()
+        }
     }
 
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 180, height: 180)
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10) // セクションの周囲のスペース
-        layout.minimumLineSpacing = 10 // セルの行間の最小スペーシング
-        layout.minimumInteritemSpacing = 10 // セル間の最小スペーシング
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
 
         pokemonCollectionView.collectionViewLayout = layout
         pokemonCollectionView.dataSource = self
@@ -34,36 +35,14 @@ final class ListViewController: UIViewController {
         pokemonCollectionView.register(UINib(nibName: "PokemonCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "PokemonCell")
     }
 
-    private func fetchPokemons() {
-        PokeAPIClient().fetchPokemonList { [weak self] pokemons in
-            guard let self = self else { return }
-            guard let pokemons = pokemons else {
-                // エラーハンドリング
-                return
-            }
-
-            self.pokemons = pokemons
-            self.fetchPokemonImages()
-        }
-    }
-
-    private func fetchPokemonImages() {
-        let dispatchGroup = DispatchGroup()
-
-        pokemons.enumerated().forEach { (index, pokemon) in
-            dispatchGroup.enter()
-            PokeAPIClient().fetchPokemonDetail(url: pokemon.url) { [weak self] detail in
-                guard let self = self, let imageUrl = detail?.sprites.front_default else {
-                    dispatchGroup.leave()
-                    return
-                }
-                self.pokemons[index].imageUrl = imageUrl
-                dispatchGroup.leave()
-            }
-        }
-
-        dispatchGroup.notify(queue: .main) {
-            self.pokemonCollectionView.reloadData()
+    private func fetchPokemons() async {
+        do {
+            let fetchedPokemons = try await PokeAPIClient().fetchPokemonList()
+            self.pokemons = fetchedPokemons
+            pokemonCollectionView.reloadData()
+        } catch {
+            // エラーハンドリング
+            print(error)
         }
     }
 }

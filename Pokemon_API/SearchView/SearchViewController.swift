@@ -9,11 +9,11 @@ import UIKit
 
 final class SearchViewController : UIViewController {
 
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var tableView: UITableView!
 
-    var pokemons: [Pokemon] = [] // 全ポケモンデータ
-    var filteredPokemons: [Pokemon] = [] // 検索結果
+    private var pokemons: [GeneralPokemonInfo] = [] // 全ポケモンデータ
+    private var filteredPokemons: [GeneralPokemonInfo] = [] // 検索結果
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,24 +21,27 @@ final class SearchViewController : UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
 
-        // カスタムセルの登録
         tableView.register(UINib(nibName: "PokemonTableViewCell", bundle: nil), forCellReuseIdentifier: "PokemonCell")
 
-        fetchAllPokemons()
+        // 非同期タスクとしてfetchAllPokemonsを実行
+        Task {
+            await fetchAllPokemons()
+        }
     }
 
-    func fetchAllPokemons() {
-        PokeAPIClient().fetchPokemonList { [weak self] pokemons in
-            guard let self = self, let pokemons = pokemons else { return }
-            self.pokemons = pokemons
-            self.filteredPokemons = pokemons
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+    // fetchAllPokemonsをasyncメソッドに変更します
+    private func fetchAllPokemons() async {
+        do {
+            let fetchedPokemons = try await PokeAPIClient().fetchPokemonList()
+            self.pokemons = fetchedPokemons
+            self.filteredPokemons = fetchedPokemons // 初期状態では全てのポケモンを表示
+            tableView.reloadData()
+        } catch {
+            // エラーハンドリング
+            print(error)
         }
     }
 }
-
 
 // UISearchBarDelegate methods
 extension SearchViewController: UISearchBarDelegate {
@@ -66,7 +69,6 @@ extension SearchViewController: UITableViewDataSource {
 
 // UITableViewDelegate methods
 extension SearchViewController: UITableViewDelegate {
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let pokemon = filteredPokemons[indexPath.row]
         let detailVC = PokemonDetailViewController(nibName: "PokemonDetailViewController", bundle: nil)

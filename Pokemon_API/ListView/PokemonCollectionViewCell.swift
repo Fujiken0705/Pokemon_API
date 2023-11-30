@@ -8,15 +8,15 @@
 import UIKit
 
 class PokemonCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var pokemonImageView: UIImageView!
-    @IBOutlet weak var pokemonNameLabel: UILabel!
+    @IBOutlet private weak var pokemonImageView: UIImageView!
+    @IBOutlet private weak var pokemonNameLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
         setupCellStyle()
     }
 
-    func setupCellStyle() {
+    private func setupCellStyle() {
         // 枠線の色
         self.layer.borderColor = UIColor.black.cgColor // 枠線の色：黒
         // 枠線の幅
@@ -26,7 +26,7 @@ class PokemonCollectionViewCell: UICollectionViewCell {
         self.layer.masksToBounds = true // 子ビューがビューの境界を超えないようにする
     }
 
-    func configure(with pokemon: Pokemon) {
+    func configure(with pokemon: GeneralPokemonInfo) {
         pokemonNameLabel.text = pokemon.name
 
         guard let imageUrlString = pokemon.imageUrl, let imageUrl = URL(string: imageUrlString) else {
