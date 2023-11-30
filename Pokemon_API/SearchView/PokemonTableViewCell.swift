@@ -7,10 +7,10 @@
 
 import UIKit
 
-class PokemonTableViewCell: UITableViewCell {
+final class PokemonTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var pokemonImageView: UIImageView!
-    @IBOutlet weak var pokemonLabel: UILabel!
+    @IBOutlet private weak var pokemonImageView: UIImageView!
+    @IBOutlet private weak var pokemonLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -18,7 +18,7 @@ class PokemonTableViewCell: UITableViewCell {
         pokemonImageView.clipsToBounds = true
     }
 
-    func configure(with pokemon: Pokemon) {
+    func configure(with pokemon: GeneralPokemonInfo) {
         pokemonLabel.text = pokemon.name
         if let imageUrlString = pokemon.imageUrl, let imageUrl = URL(string: imageUrlString) {
             pokemonImageView.af.setImage(withURL: imageUrl, placeholderImage: UIImage(named: "defaultPlaceholder"))

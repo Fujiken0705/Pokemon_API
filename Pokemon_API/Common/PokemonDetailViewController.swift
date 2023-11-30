@@ -9,14 +9,14 @@ import  UIKit
 
 final class PokemonDetailViewController: UIViewController {
 
-    @IBOutlet weak var DetailImageView: UIImageView!
-    @IBOutlet weak var pokemonNameLabel: UILabel!
-    @IBOutlet weak var pokemonTypeLabel: UILabel!
-    @IBOutlet weak var pokemonHeightLabel: UILabel!
-    @IBOutlet weak var pokemonWeightLabel: UILabel!
-    @IBOutlet weak var pokemonFavoriteButton: UIButton!
+    @IBOutlet private weak var DetailImageView: UIImageView!
+    @IBOutlet private weak var pokemonNameLabel: UILabel!
+    @IBOutlet private weak var pokemonTypeLabel: UILabel!
+    @IBOutlet private weak var pokemonHeightLabel: UILabel!
+    @IBOutlet private weak var pokemonWeightLabel: UILabel!
+    @IBOutlet private weak var pokemonFavoriteButton: UIButton!
 
-    var pokemon: Pokemon? //詳細画面に表示するポケモンを指定するためにプロパティを定義
+    var pokemon: GeneralPokemonInfo? //詳細画面に表示するポケモンを指定するためにプロパティを定義
 
     override func viewDidLoad() {
         super.viewDidLoad()

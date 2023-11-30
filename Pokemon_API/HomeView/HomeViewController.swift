@@ -9,18 +9,17 @@ import UIKit
 
 final class HomeViewController : UIViewController {
 
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var StartButton: UIButton!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var StartButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
 
-    @IBAction func showListViewController(_ sender: Any) {
-        //SearchViewControllerのインスタンスを作成
-        let searchViewController = SearchViewController(nibName: "SearchViewController", bundle: nil)
-        navigationController?.pushViewController(searchViewController, animated: true)
+    @IBAction private func showTabBar(_ sender: Any) {
+        let mainTabBarController = MainTabBarController()
+        navigationController?.pushViewController(mainTabBarController, animated: true)
     }
 
     
