@@ -50,6 +50,9 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="filled" title="お気に入りに追加する"/>
+                    <connections>
+                        <action selector="addFavoritePokemonList:" destination="-1" eventType="touchUpInside" id="YXT-nc-lQK"/>
+                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name :" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epB-lk-5g7">
                     <rect key="frame" x="66" y="371" width="261" height="49"/>
