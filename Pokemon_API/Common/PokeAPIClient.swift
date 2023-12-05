@@ -8,8 +8,11 @@
 
 import Alamofire
 
-class PokeAPIClient {
+struct PokeAPIClient {
     func fetchPokemonList() async throws -> [GeneralPokemonInfo] {
+        //host名 スキーマとかを　Componentsで指定できるようにしよう
+//        let component =  URLComponents()
+
         let url = "https://pokeapi.co/api/v2/pokemon?limit=151"
         let response = try await AF.request(url).serializingDecodable(PokemonListAPIResponse.self).value
 

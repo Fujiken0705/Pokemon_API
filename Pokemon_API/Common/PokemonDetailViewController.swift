@@ -6,6 +6,7 @@
 //
 
 import  UIKit
+import RealmSwift
 
 final class PokemonDetailViewController: UIViewController {
 
@@ -41,6 +42,11 @@ final class PokemonDetailViewController: UIViewController {
                 DetailImageView.af.setImage(withURL: imageUrl)
             }
         }
+    }
+
+
+    @IBAction func addFavoritePokemonList(_ sender: Any) {
+        
     }
 
 }

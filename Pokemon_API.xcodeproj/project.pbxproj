@@ -32,6 +32,9 @@
 		D7F8E86E2B126FA100803C84 /* PokemonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8E86C2B126FA100803C84 /* PokemonTableViewCell.swift */; };
 		D7F8E86F2B126FA100803C84 /* PokemonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F8E86D2B126FA100803C84 /* PokemonTableViewCell.xib */; };
 		D7F8E8762B18508800803C84 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8E8752B18508800803C84 /* TabBarController.swift */; };
+		D7F8E8792B1F351000803C84 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = D7F8E8782B1F351000803C84 /* Realm */; };
+		D7F8E87B2B1F351000803C84 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D7F8E87A2B1F351000803C84 /* RealmSwift */; };
+		D7F8E87D2B1F358500803C84 /* PokemonRealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8E87C2B1F358500803C84 /* PokemonRealmService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +82,7 @@
 		D7F8E86C2B126FA100803C84 /* PokemonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTableViewCell.swift; sourceTree = "<group>"; };
 		D7F8E86D2B126FA100803C84 /* PokemonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PokemonTableViewCell.xib; sourceTree = "<group>"; };
 		D7F8E8752B18508800803C84 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		D7F8E87C2B1F358500803C84 /* PokemonRealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonRealmService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +90,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7F8E87B2B1F351000803C84 /* RealmSwift in Frameworks */,
+				D7F8E8792B1F351000803C84 /* Realm in Frameworks */,
 				D7F8E8462B10792400803C84 /* Alamofire in Frameworks */,
 				D7F8E8672B119CE600803C84 /* AlamofireImage in Frameworks */,
 			);
@@ -208,6 +214,7 @@
 				D7F8E8752B18508800803C84 /* TabBarController.swift */,
 				D7F8E8632B10F95900803C84 /* PokeAPIClient.swift */,
 				D7F8E8682B120BBB00803C84 /* PokemonDetailViewController.swift */,
+				D7F8E87C2B1F358500803C84 /* PokemonRealmService.swift */,
 				D7F8E86A2B120C4300803C84 /* PokemonDetailViewController.xib */,
 			);
 			path = Common;
@@ -232,6 +239,8 @@
 			packageProductDependencies = (
 				D7F8E8452B10792400803C84 /* Alamofire */,
 				D7F8E8662B119CE600803C84 /* AlamofireImage */,
+				D7F8E8782B1F351000803C84 /* Realm */,
+				D7F8E87A2B1F351000803C84 /* RealmSwift */,
 			);
 			productName = Pokemon_API;
 			productReference = D7F8E8112B10607900803C84 /* Pokemon_API.app */;
@@ -308,6 +317,7 @@
 			packageReferences = (
 				D7F8E8442B10792400803C84 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				D7F8E8652B119CE600803C84 /* XCRemoteSwiftPackageReference "AlamofireImage" */,
+				D7F8E8772B1F351000803C84 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = D7F8E8122B10607900803C84 /* Products */;
 			projectDirPath = "";
@@ -361,6 +371,7 @@
 				D7F8E8542B10818600803C84 /* SearchViewController.swift in Sources */,
 				D7F8E8152B10607900803C84 /* AppDelegate.swift in Sources */,
 				D7F8E8762B18508800803C84 /* TabBarController.swift in Sources */,
+				D7F8E87D2B1F358500803C84 /* PokemonRealmService.swift in Sources */,
 				D7F8E8172B10607900803C84 /* SceneDelegate.swift in Sources */,
 				D7F8E86E2B126FA100803C84 /* PokemonTableViewCell.swift in Sources */,
 				D7F8E85F2B10E72E00803C84 /* PokemonCollectionViewCell.swift in Sources */,
@@ -718,6 +729,14 @@
 				minimumVersion = 4.0.0;
 			};
 		};
+		D7F8E8772B1F351000803C84 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -730,6 +749,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D7F8E8652B119CE600803C84 /* XCRemoteSwiftPackageReference "AlamofireImage" */;
 			productName = AlamofireImage;
+		};
+		D7F8E8782B1F351000803C84 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D7F8E8772B1F351000803C84 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		D7F8E87A2B1F351000803C84 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D7F8E8772B1F351000803C84 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
