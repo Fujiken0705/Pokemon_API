@@ -35,6 +35,7 @@
 		D7F8E8792B1F351000803C84 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = D7F8E8782B1F351000803C84 /* Realm */; };
 		D7F8E87B2B1F351000803C84 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D7F8E87A2B1F351000803C84 /* RealmSwift */; };
 		D7F8E87D2B1F358500803C84 /* PokemonRealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8E87C2B1F358500803C84 /* PokemonRealmService.swift */; };
+		D7F8E87F2B21D34400803C84 /* RealmPokemonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8E87E2B21D34400803C84 /* RealmPokemonModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		D7F8E86D2B126FA100803C84 /* PokemonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PokemonTableViewCell.xib; sourceTree = "<group>"; };
 		D7F8E8752B18508800803C84 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		D7F8E87C2B1F358500803C84 /* PokemonRealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonRealmService.swift; sourceTree = "<group>"; };
+		D7F8E87E2B21D34400803C84 /* RealmPokemonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmPokemonModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				D7F8E8752B18508800803C84 /* TabBarController.swift */,
+				D7F8E87E2B21D34400803C84 /* RealmPokemonModel.swift */,
 				D7F8E8632B10F95900803C84 /* PokeAPIClient.swift */,
 				D7F8E8682B120BBB00803C84 /* PokemonDetailViewController.swift */,
 				D7F8E87C2B1F358500803C84 /* PokemonRealmService.swift */,
@@ -380,6 +383,7 @@
 				D7F8E8582B10820E00803C84 /* FavoriteViewController.swift in Sources */,
 				D7F8E84C2B107EC500803C84 /* HomeViewController.swift in Sources */,
 				D7F8E8692B120BBB00803C84 /* PokemonDetailViewController.swift in Sources */,
+				D7F8E87F2B21D34400803C84 /* RealmPokemonModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,7 +16,6 @@ final class HomeViewController : UIViewController {
         super.viewDidLoad()
     }
 
-
     @IBAction private func showTabBar(_ sender: Any) {
         let mainTabBarController = MainTabBarController()
         navigationController?.pushViewController(mainTabBarController, animated: true)

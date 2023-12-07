@@ -37,13 +37,11 @@ final class SearchViewController : UIViewController {
             self.filteredPokemons = fetchedPokemons // 初期状態では全てのポケモンを表示
             tableView.reloadData()
         } catch {
-            // エラーハンドリング
             print(error)
         }
     }
 }
 
-// UISearchBarDelegate methods
 extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filteredPokemons = searchText.isEmpty ? pokemons : pokemons.filter { $0.name.lowercased().contains(searchText.lowercased()) }
@@ -51,7 +49,6 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
-// UITableViewDataSource methods
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredPokemons.count
@@ -67,7 +64,6 @@ extension SearchViewController: UITableViewDataSource {
     }
 }
 
-// UITableViewDelegate methods
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let pokemon = filteredPokemons[indexPath.row]

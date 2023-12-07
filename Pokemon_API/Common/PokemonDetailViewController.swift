@@ -46,7 +46,12 @@ final class PokemonDetailViewController: UIViewController {
 
 
     @IBAction func addFavoritePokemonList(_ sender: Any) {
-        
+
+        if let pokemon = pokemon {
+                    let realmService = PokemonRealmService()
+                    realmService.save(pokemon: pokemon)
+                }
+
     }
 
 }
