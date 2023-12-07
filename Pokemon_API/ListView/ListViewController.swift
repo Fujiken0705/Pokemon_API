@@ -41,13 +41,11 @@ final class ListViewController: UIViewController {
             self.pokemons = fetchedPokemons
             pokemonCollectionView.reloadData()
         } catch {
-            // エラーハンドリング
             print(error)
         }
     }
 }
 
-// データソースとデリゲートのメソッド
 extension ListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return pokemons.count

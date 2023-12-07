@@ -10,7 +10,7 @@ import Alamofire
 
 struct PokeAPIClient {
     func fetchPokemonList() async throws -> [GeneralPokemonInfo] {
-        //host名 スキーマとかを　Componentsで指定できるようにしよう
+        //TODO:host名 スキーマとかを　Componentsで指定できるようにしよう
 //        let component =  URLComponents()
 
         let url = "https://pokeapi.co/api/v2/pokemon?limit=151"
