@@ -10,31 +10,42 @@ import Alamofire
 
 struct PokeAPIClient {
     func fetchPokemonList() async throws -> [GeneralPokemonInfo] {
-        //TODO:host名 スキーマとかを　Componentsで指定できるようにしよう
-//        let component =  URLComponents()
-
         let url = "https://pokeapi.co/api/v2/pokemon?limit=151"
         let response = try await AF.request(url).serializingDecodable(PokemonListAPIResponse.self).value
 
         var pokemons: [GeneralPokemonInfo] = []
 
-        // TaskGroupを使用して並列に詳細情報を取得
         try await withThrowingTaskGroup(of: GeneralPokemonInfo?.self, body: { group in
             for entry in response.results {
                 group.addTask {
-                    let detail = try? await self.fetchPokemonDetail(url: entry.url)
-                    if let detail = detail {
-                        return GeneralPokemonInfo(
-                            name: entry.name,
-                            url: entry.url,
-                            imageUrl: detail.sprites.front_default,
-                            id: detail.id,
-                            height: detail.height,
-                            weight: detail.weight,
-                            types: detail.types.map { $0.type.name }
-                        )
+                    let detailsResponse = try? await self.fetchPokemonDetail(url: entry.url)
+                    guard let details = detailsResponse?.details,
+                          let speciesUrl = detailsResponse?.speciesUrl else {
+                        return nil
                     }
-                    return nil
+
+                    let speciesResponse = try? await self.fetchPokemonSpecies(url: speciesUrl)
+                    let japaneseName = speciesResponse?.names.first { $0.language.name == "ja" }?.name ?? entry.name
+
+                    var japaneseTypeNames: [String] = []
+                    for typeInfo in details.types {
+                        if let typeResponse = try? await self.fetchPokemonType(url: typeInfo.type.url),
+                           let japaneseTypeName = typeResponse.names.first(where: { $0.language.name == "ja" })?.name {
+                            japaneseTypeNames.append(japaneseTypeName)
+                        } else {
+                            japaneseTypeNames.append(typeInfo.type.name)
+                        }
+                    }
+
+                    return GeneralPokemonInfo(
+                        name: japaneseName,
+                        url: entry.url,
+                        imageUrl: details.sprites.front_default,
+                        id: details.id,
+                        height: details.height,
+                        weight: details.weight,
+                        types: japaneseTypeNames
+                    )
                 }
             }
             for try await pokemon in group {
@@ -47,11 +58,19 @@ struct PokeAPIClient {
         return pokemons.sorted { $0.id < $1.id }
     }
 
-    func fetchPokemonDetail(url: String) async throws -> PokemonDetails? {
-            try await AF.request(url).serializingDecodable(PokemonDetails.self).value
+    func fetchPokemonDetail(url: String) async throws -> (details: PokemonDetails, speciesUrl: String)? {
+        let details = try await AF.request(url).serializingDecodable(PokemonDetails.self).value
+        return (details, details.species.url)
+    }
+
+    func fetchPokemonSpecies(url: String) async throws -> PokemonSpecies? {
+        try await AF.request(url).serializingDecodable(PokemonSpecies.self).value
+    }
+
+    func fetchPokemonType(url: String) async throws -> PokemonType? {
+        try await AF.request(url).serializingDecodable(PokemonType.self).value
     }
 }
-
 
 // ポケモンのリストレスポンスをデコードするために使用される構造体
 // APIからのポケモンの一覧応答を扱うための構造体
@@ -74,6 +93,7 @@ struct PokemonDetails: Codable {
     let height: Int
     let weight: Int
     let types: [PokemonTypeReference]
+    let species: ResourceLink
 }
 
 struct PokemonSprites: Codable {
@@ -100,3 +120,28 @@ struct GeneralPokemonInfo: Codable {
     let weight: Int
     let types: [String]
 }
+
+
+//以下二つはポケモンの名前を日本語に変える際に使用する構造体
+struct PokemonNames: Codable {
+    let language: ResourceLink
+    let name: String
+}
+
+struct PokemonSpecies: Codable {
+    let names: [PokemonNames]
+}
+
+//タイプの日本語名を取得するための構造体
+struct PokemonTypeNames: Codable {
+    let language: ResourceLink
+    let name: String
+}
+
+struct PokemonType: Codable {
+    let names: [PokemonTypeNames]
+}
+
+
+//TODO:host名 スキーマとかを　Componentsで指定できるようにしよう
+//        let component =  URLComponents()
