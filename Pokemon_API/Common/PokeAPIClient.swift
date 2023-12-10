@@ -7,67 +7,97 @@
 
 
 import Alamofire
+import Foundation
 
 struct PokeAPIClient {
     func fetchPokemonList() async throws -> [GeneralPokemonInfo] {
-        let url = "https://pokeapi.co/api/v2/pokemon?limit=151"
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "pokeapi.co"
+        components.path = "/api/v2/pokemon"
+        components.queryItems = [URLQueryItem(name: "limit", value: "151")]
+
+        guard let url = components.url else {
+            throw URLError(.badURL)
+        }
+
         let response = try await AF.request(url).serializingDecodable(PokemonListAPIResponse.self).value
+        return try await fetchDetailsFor(pokemonEntries: response.results)
+    }
 
-        var pokemons: [GeneralPokemonInfo] = []
-
+    private func fetchDetailsFor(pokemonEntries: [BasicPokemonInfo]) async throws -> [GeneralPokemonInfo] {
         try await withThrowingTaskGroup(of: GeneralPokemonInfo?.self, body: { group in
-            for entry in response.results {
+            var detailedPokemons = [GeneralPokemonInfo]()
+
+            for entry in pokemonEntries {
                 group.addTask {
-                    let detailsResponse = try? await self.fetchPokemonDetail(url: entry.url)
-                    guard let details = detailsResponse?.details,
-                          let speciesUrl = detailsResponse?.speciesUrl else {
-                        return nil
-                    }
-
-                    let speciesResponse = try? await self.fetchPokemonSpecies(url: speciesUrl)
-                    let japaneseName = speciesResponse?.names.first { $0.language.name == "ja" }?.name ?? entry.name
-
-                    var japaneseTypeNames: [String] = []
-                    for typeInfo in details.types {
-                        if let typeResponse = try? await self.fetchPokemonType(url: typeInfo.type.url),
-                           let japaneseTypeName = typeResponse.names.first(where: { $0.language.name == "ja" })?.name {
-                            japaneseTypeNames.append(japaneseTypeName)
-                        } else {
-                            japaneseTypeNames.append(typeInfo.type.name)
-                        }
-                    }
-
-                    return GeneralPokemonInfo(
-                        name: japaneseName,
-                        url: entry.url,
-                        imageUrl: details.sprites.front_default,
-                        id: details.id,
-                        height: details.height,
-                        weight: details.weight,
-                        types: japaneseTypeNames
-                    )
+                    return try await self.fetchDetailsFor(entry: entry)
                 }
             }
+
             for try await pokemon in group {
                 if let pokemon = pokemon {
-                    pokemons.append(pokemon)
+                    detailedPokemons.append(pokemon)
                 }
             }
+
+            return detailedPokemons.sorted(by: { $0.id < $1.id })
         })
-
-        return pokemons.sorted { $0.id < $1.id }
     }
 
-    func fetchPokemonDetail(url: String) async throws -> (details: PokemonDetails, speciesUrl: String)? {
-        let details = try await AF.request(url).serializingDecodable(PokemonDetails.self).value
-        return (details, details.species.url)
+    private func fetchDetailsFor(entry: BasicPokemonInfo) async throws -> GeneralPokemonInfo? {
+        let detailsResponse = try await fetchPokemonDetail(url: entry.url)
+        guard let details = detailsResponse else { return nil }
+
+        let species = try await fetchPokemonSpecies(url: details.species.url)
+        let japaneseName = species?.names.first { $0.language.name == "ja" }?.name ?? entry.name
+        let japaneseTypeNames = try await fetchJapaneseTypeNames(from: details.types)
+
+        return GeneralPokemonInfo(
+            name: japaneseName,
+            url: entry.url,
+            imageUrl: details.sprites.front_default,
+            id: details.id,
+            height: details.height,
+            weight: details.weight,
+            types: japaneseTypeNames
+        )
     }
 
-    func fetchPokemonSpecies(url: String) async throws -> PokemonSpecies? {
+    private func fetchPokemonDetail(url: String) async throws -> PokemonDetails? {
+        try await AF.request(url).serializingDecodable(PokemonDetails.self).value
+    }
+
+    private func fetchPokemonSpecies(url: String) async throws -> PokemonSpecies? {
         try await AF.request(url).serializingDecodable(PokemonSpecies.self).value
     }
 
-    func fetchPokemonType(url: String) async throws -> PokemonType? {
+    private func fetchJapaneseTypeNames(from types: [PokemonTypeReference]) async throws -> [String] {
+        try await withThrowingTaskGroup(of: String?.self, body: { group in
+            var typeNames = [String]()
+
+            for typeInfo in types {
+                group.addTask {
+                    return try await self.fetchTypeName(for: typeInfo.type)
+                }
+            }
+
+            for try await typeName in group {
+                if let typeName = typeName {
+                    typeNames.append(typeName)
+                }
+            }
+
+            return typeNames
+        })
+    }
+
+    private func fetchTypeName(for resourceLink: ResourceLink) async throws -> String? {
+        guard let typeResponse = try await fetchPokemonType(url: resourceLink.url) else { return nil }
+        return typeResponse.names.first { $0.language.name == "ja" }?.name ?? resourceLink.name
+    }
+
+    private func fetchPokemonType(url: String) async throws -> PokemonType? {
         try await AF.request(url).serializingDecodable(PokemonType.self).value
     }
 }
