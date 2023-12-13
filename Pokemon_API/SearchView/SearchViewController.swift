@@ -23,18 +23,16 @@ final class SearchViewController : UIViewController {
 
         tableView.register(UINib(nibName: "PokemonTableViewCell", bundle: nil), forCellReuseIdentifier: "PokemonCell")
 
-        // 非同期タスクとしてfetchAllPokemonsを実行
         Task {
             await fetchAllPokemons()
         }
     }
 
-    // fetchAllPokemonsをasyncメソッドに変更します
     private func fetchAllPokemons() async {
         do {
             let fetchedPokemons = try await PokeAPIClient().fetchPokemonList()
             self.pokemons = fetchedPokemons
-            self.filteredPokemons = fetchedPokemons // 初期状態では全てのポケモンを表示
+            self.filteredPokemons = fetchedPokemons
             tableView.reloadData()
         } catch {
             print(error)
