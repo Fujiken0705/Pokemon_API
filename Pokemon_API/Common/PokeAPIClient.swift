@@ -171,7 +171,3 @@ struct PokemonTypeNames: Codable {
 struct PokemonType: Codable {
     let names: [PokemonTypeNames]
 }
-
-
-//TODO:host名 スキーマとかを　Componentsで指定できるようにしよう
-//        let component =  URLComponents()

@@ -9,16 +9,12 @@ import Foundation
 import RealmSwift
 
 class RealmPokemonModel: Object {
-    @objc dynamic var name: String = ""
-    @objc dynamic var imageUrl: String?
-    @objc dynamic var id: Int = 0
-    @objc dynamic var height: Int = 0
-    @objc dynamic var weight: Int = 0
+    @Persisted var name: String = ""
+    @Persisted var imageUrl: String?
+    @Persisted(primaryKey: true) var id: Int = 0
+    @Persisted var height: Int = 0
+    @Persisted var weight: Int = 0
     let types = List<String>()
-
-    override static func primaryKey() -> String? {
-        return "id"
-    }
 }
 
 
