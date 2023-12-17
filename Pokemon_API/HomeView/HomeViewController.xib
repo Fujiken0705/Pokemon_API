@@ -21,16 +21,14 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ポケモンアプリ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iLZ-40-rGf">
-                    <rect key="frame" x="82" y="209" width="229.33333333333337" height="42"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ポケモンアプリ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iLZ-40-rGf">
+                    <rect key="frame" x="82.000000000000014" y="255" width="229.33333333333337" height="42"/>
                     <fontDescription key="fontDescription" type="system" pointSize="35"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K8O-FJ-W91">
-                    <rect key="frame" x="150" y="411" width="87.666666666666686" height="35"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K8O-FJ-W91">
+                    <rect key="frame" x="152.66666666666666" y="408.66666666666669" width="87.666666666666657" height="35"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" title="スタート"/>
                     <connections>
@@ -40,6 +38,12 @@
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="iLZ-40-rGf" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="109-XW-hCF"/>
+                <constraint firstItem="K8O-FJ-W91" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="AYo-yR-BMe"/>
+                <constraint firstItem="K8O-FJ-W91" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="qoe-M7-qQA"/>
+                <constraint firstItem="iLZ-40-rGf" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-150" id="yYm-PS-Vbd"/>
+            </constraints>
             <point key="canvasLocation" x="136.64122137404578" y="19.718309859154932"/>
         </view>
     </objects>
