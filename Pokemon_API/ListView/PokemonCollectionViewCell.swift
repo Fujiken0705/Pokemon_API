@@ -13,24 +13,22 @@ class PokemonCollectionViewCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        setupCellStyle()
+        configureCellStyle()
     }
 
-    private func setupCellStyle() {
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.borderWidth = 1.0
-        self.layer.cornerRadius = 8.0
-        self.layer.masksToBounds = true
+    private func configureCellStyle() {
+        layer.borderColor = UIColor.black.cgColor
+        layer.borderWidth = 1.0
+        layer.cornerRadius = 8.0
+        clipsToBounds = true
     }
 
     func configure(with pokemon: GeneralPokemonInfo) {
         pokemonNameLabel.text = pokemon.name
-
-        guard let imageUrlString = pokemon.imageUrl, let imageUrl = URL(string: imageUrlString) else {
+        if let imageUrl = URL(string: pokemon.imageUrl ?? "") {
+            pokemonImageView.af.setImage(withURL: imageUrl)
+        } else {
             pokemonImageView.image = nil
-            return
         }
-
-        pokemonImageView.af.setImage(withURL: imageUrl)
     }
 }

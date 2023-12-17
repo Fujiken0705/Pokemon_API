@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,22 +21,30 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XSm-h5-NhG">
-                    <rect key="frame" x="0.0" y="95" width="393" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="XSm-h5-NhG">
+                    <rect key="frame" x="0.0" y="59" width="393" height="56"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="lT2-M2-QrH"/>
                     </connections>
                 </searchBar>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gvt-v5-0JL">
-                    <rect key="frame" x="0.0" y="139" width="393" height="679"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gvt-v5-0JL">
+                    <rect key="frame" x="10" y="120" width="373" height="728"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="gvt-v5-0JL" firstAttribute="top" secondItem="XSm-h5-NhG" secondAttribute="bottom" constant="5" id="1W3-e2-NQ8"/>
+                <constraint firstItem="XSm-h5-NhG" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="7WN-wk-OU6"/>
+                <constraint firstItem="gvt-v5-0JL" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="8kX-4U-Vhz"/>
+                <constraint firstItem="gvt-v5-0JL" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" constant="30" id="DcI-qj-ith"/>
+                <constraint firstItem="gvt-v5-0JL" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" constant="-10" id="Ynw-gS-Hd6"/>
+                <constraint firstItem="gvt-v5-0JL" firstAttribute="top" secondItem="XSm-h5-NhG" secondAttribute="bottom" constant="5" id="gJm-WB-cbU"/>
+                <constraint firstItem="XSm-h5-NhG" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="vpV-Pq-yxq"/>
+                <constraint firstItem="XSm-h5-NhG" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="x3V-TY-2Tx"/>
+            </constraints>
             <point key="canvasLocation" x="136.64122137404578" y="19.718309859154932"/>
         </view>
     </objects>
