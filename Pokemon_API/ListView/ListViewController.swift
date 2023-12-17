@@ -12,60 +12,89 @@ final class ListViewController: UIViewController {
 
     @IBOutlet private weak var pokemonCollectionView: UICollectionView!
 
-    var pokemons: [GeneralPokemonInfo] = []
+    private var pokemons: [GeneralPokemonInfo] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCollectionView()
-        Task {
-            await fetchPokemons()
-        }
+        configureCollectionView()
+        loadPokemons()
     }
 
-    private func setupCollectionView() {
+    private func configureCollectionView() {
+        let layout = createFlowLayout()
+        pokemonCollectionView.collectionViewLayout = layout
+        pokemonCollectionView.register(UINib(nibName: "PokemonCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "PokemonCell")
+        pokemonCollectionView.dataSource = self
+        pokemonCollectionView.delegate = self
+    }
+
+    private func createFlowLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 180, height: 180)
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 10
-
-        pokemonCollectionView.collectionViewLayout = layout
-        pokemonCollectionView.dataSource = self
-        pokemonCollectionView.delegate = self
-        pokemonCollectionView.register(UINib(nibName: "PokemonCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "PokemonCell")
+        return layout
     }
 
-    private func fetchPokemons() async {
-        do {
-            let fetchedPokemons = try await PokeAPIClient().fetchPokemonList()
-            self.pokemons = fetchedPokemons
-            pokemonCollectionView.reloadData()
-        } catch {
-            print(error)
+    private func loadPokemons() {
+        Task {
+            do {
+                pokemons = try await PokeAPIClient().fetchPokemonList()
+                pokemonCollectionView.reloadData()
+            } catch {
+                print(error)
+            }
         }
     }
 }
 
+// MARK: - UICollectionViewDataSource
 extension ListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return pokemons.count
+        pokemons.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PokemonCell", for: indexPath) as? PokemonCollectionViewCell else {
+        let cell = dequeuePokemonCell(for: indexPath)
+        cell.configure(with: pokemons[indexPath.row])
+        return cell
+    }
+
+    private func dequeuePokemonCell(for indexPath: IndexPath) -> PokemonCollectionViewCell {
+        guard let cell = pokemonCollectionView.dequeueReusableCell(withReuseIdentifier: "PokemonCell", for: indexPath) as? PokemonCollectionViewCell else {
             fatalError("Unable to dequeue PokemonCell")
         }
-        let pokemon = pokemons[indexPath.row]
-        cell.configure(with: pokemon)
         return cell
     }
 }
 
+// MARK: - UICollectionViewDelegate
 extension ListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let pokemon = pokemons[indexPath.row]
-        let detailVC = PokemonDetailViewController(nibName: "PokemonDetailViewController", bundle: nil)
-        detailVC.pokemon = pokemon
-        self.present(detailVC, animated: true, completion: nil)
+        presentDetailViewController(for: pokemons[indexPath.row])
+    }
+
+    private func presentDetailViewController(for pokemon: GeneralPokemonInfo) {
+        let detailViewController = PokemonDetailViewController(nibName: "PokemonDetailViewController", bundle: nil)
+        detailViewController.pokemon = pokemon
+        present(detailViewController, animated: true)
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+extension ListViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // 画面の幅を取得
+        let width = collectionView.bounds.width
+        // セルの間隔
+        let padding: CGFloat = 10
+        // 一行に表示するセルの数
+        let itemsPerRow: CGFloat = 2
+        // セルの幅を計算
+        let availableWidth = width - (padding * (itemsPerRow + 1))
+        let widthPerItem = availableWidth / itemsPerRow
+        // 正方形のセルを作成するために、幅と高さを同じにする
+        return CGSize(width: widthPerItem, height: widthPerItem)
     }
 }
