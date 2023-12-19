@@ -28,7 +28,25 @@
 		<key>Pokemon_API.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>D7F8E8102B10607900803C84</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D7F8E8262B10607B00803C84</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D7F8E8302B10607B00803C84</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

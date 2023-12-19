@@ -23,20 +23,20 @@ final class PokemonDetailViewController: UIViewController {
         super.viewDidLoad()
 
         if let pokemon = pokemon {
-            pokemonNameLabel.text = "Name: \(pokemon.name)"
+            pokemonNameLabel.text = "なまえ: \(pokemon.name)"
 
             // タイプが複数あるかどうかをチェック
             if pokemon.types.count > 1 {
-                pokemonTypeLabel.text = "Types: " + pokemon.types.joined(separator: ", ")
+                pokemonTypeLabel.text = "タイプ: " + pokemon.types.joined(separator: ", ")
             } else if pokemon.types.count == 1 {
-                pokemonTypeLabel.text = "Type: " + pokemon.types.first!
+                pokemonTypeLabel.text = "タイプ: " + pokemon.types.first!
             } else {
-                pokemonTypeLabel.text = "Type: Unknown"
+                pokemonTypeLabel.text = "タイプ: Unknown"
             }
 
             // 単位変換を行い、ポケモンの高さと重さを設定
-            pokemonHeightLabel.text = "Height: \(Double(pokemon.height) / 10.0) m"
-            pokemonWeightLabel.text = "Weight: \(Double(pokemon.weight) / 10.0) kg"
+            pokemonHeightLabel.text = "たかさ: \(Double(pokemon.height) / 10.0) m"
+            pokemonWeightLabel.text = "おもさ: \(Double(pokemon.weight) / 10.0) kg"
 
             if let imageUrlString = pokemon.imageUrl, let imageUrl = URL(string: imageUrlString) {
                 DetailImageView.af.setImage(withURL: imageUrl)
@@ -51,6 +51,7 @@ final class PokemonDetailViewController: UIViewController {
                     let realmService = PokemonRealmService()
                     realmService.save(pokemon: pokemon)
                 }
+        print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true))
 
     }
 

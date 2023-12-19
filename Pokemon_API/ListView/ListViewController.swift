@@ -85,11 +85,8 @@ extension ListViewController: UICollectionViewDelegate {
 // MARK: - UICollectionViewDelegateFlowLayout
 extension ListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // 画面の幅を取得
         let width = collectionView.bounds.width
-        // セルの間隔
         let padding: CGFloat = 10
-        // 一行に表示するセルの数
         let itemsPerRow: CGFloat = 2
         // セルの幅を計算
         let availableWidth = width - (padding * (itemsPerRow + 1))
