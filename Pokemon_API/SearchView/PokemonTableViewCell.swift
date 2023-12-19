@@ -25,9 +25,3 @@ final class PokemonTableViewCell: UITableViewCell {
         }
     }
 }
-
-//画像でのキャッシュ
-//Realmでオフライン
-//イケてるアプリ
-//Package.swift
- //

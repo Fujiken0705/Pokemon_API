@@ -7,10 +7,15 @@
 
 import UIKit
 
-final class FavoriteViewController : UIViewController {
+final class FavoriteViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    @IBOutlet weak var favoriteTableView: UITableView!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+
+    
 
 }

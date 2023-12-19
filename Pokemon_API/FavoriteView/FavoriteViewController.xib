@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FavoriteViewController" customModule="Pokemon_API" customModuleProvider="target">
             <connections>
+                <outlet property="favoriteTableView" destination="hXR-WT-mtK" id="vGD-wv-K6Z"/>
                 <outlet property="view" destination="iN0-l3-epB" id="2gh-gl-Box"/>
             </connections>
         </placeholder>
